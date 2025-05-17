@@ -1,1 +1,6 @@
 EVENTNEXT 
+This project is an Event RSVP Application that allows users to create events, view a list of upcoming events, and RSVP to them using their name and email. It is built using HTML, CSS, and JavaScript for the frontend and Flask (Python) for the backend. The application stores event and RSVP data in IBM Cloudant, a NoSQL database. The project is containerized using Docker and deployed on a Kubernetes cluster, using a LoadBalancer service for external access. Kubernetes Secrets are used to securely manage sensitive credentials like the Cloudant API key and username.
+
+To run the project locally, install the dependencies listed in requirements.txt, and run the Flask app on port 5000. You can also run the application as a Docker container by building the image with docker build and running it with docker run. For production or scalable deployment, Kubernetes configuration files (deployment.yaml, service.yaml, and cloudant-secret.yaml) are provided to deploy the application on any cloud platform that supports Kubernetes, such as IBM Cloud.
+
+The application’s code is organized into frontend and backend components, and the container setup ensures portability and scalability. Contributions are welcome to enhance the functionality or UI, and the project is open-sourced under the MIT license.
