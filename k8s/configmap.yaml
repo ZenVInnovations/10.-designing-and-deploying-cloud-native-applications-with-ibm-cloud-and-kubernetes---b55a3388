@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jobquest-config
+data:
+  api_url: "http://jobquest-backend"
+  cloudinary_cloud_name: "your-cloud-name"
+  cloudinary_upload_preset: "jobquest"

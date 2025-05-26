@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobquest-frontend
+  labels:
+    app: jobquest-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jobquest-frontend
+  template:
+    metadata:
+      labels:
+        app: jobquest-frontend
+    spec:
+      containers:
+      - name: jobquest-frontend
+        image: ${IBM_REGISTRY}/jobquest-frontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: VITE_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: jobquest-config
+              key: api_url
+        - name: VITE_CLOUDINARY_CLOUD_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: jobquest-config
+              key: cloudinary_cloud_name
+        - name: VITE_CLOUDINARY_UPLOAD_PRESET
+          valueFrom:
+            configMapKeyRef:
+              name: jobquest-config
+              key: cloudinary_upload_preset
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.2"
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jobquest-frontend
+spec:
+  selector:
+    app: jobquest-frontend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
